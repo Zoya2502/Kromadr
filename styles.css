@@ -401,3 +401,61 @@ h1 {
     z-index: 10;
     background: rgba(0,0,0,0.6); /* Темная вуаль для финала */
 }
+
+/* --- ГЛОБАЛЬНЫЕ ЛУЧИ (GOD RAYS) --- */
+#global-rays-container {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: -1; /* За игровым окном, но перед фоном */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Скрыты по умолчанию */
+    transition: opacity 1.5s ease-in;
+}
+
+/* Когда активен класс .active на контейнере */
+#global-rays-container.active {
+    opacity: 1;
+}
+
+.rays-layer {
+    position: absolute;
+    /* Делаем их огромными, чтобы при вращении углы экрана не оголялись */
+    width: 200vmax; 
+    height: 200vmax; 
+    border-radius: 50%;
+    mix-blend-mode: overlay; /* Режим наложения света */
+}
+
+/* Слой 1: Широкие медленные лучи */
+.ray-slow {
+    background: repeating-conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 15deg,
+        rgba(191, 121, 80, 0.2) 20deg, /* Оранжевый свет */
+        transparent 30deg
+    );
+    animation: rotate-rays 60s linear infinite;
+}
+
+/* Слой 2: Узкие быстрые лучи */
+.ray-fast {
+    background: repeating-conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 5deg,
+        rgba(255, 255, 200, 0.15) 7deg, /* Беловатый свет */
+        transparent 10deg
+    );
+    animation: rotate-rays 20s linear infinite reverse; /* В другую сторону */
+}
+
+@keyframes rotate-rays {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

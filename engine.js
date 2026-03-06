@@ -1,6 +1,7 @@
 // --- НАСТРОЙКИ ВРЕМЕНИ ---
 const RITUAL_DURATION = 12000; // 12 секунд анимации
 const PULL_AUDIO_SPEED = 2.0;  // Ускорение звука призыва
+const globalRays = document.getElementById('global-rays-container'); // НОВОЕ
 
 // --- ПЕРЕМЕННЫЕ СОСТОЯНИЯ ---
 let currentStory = null;    
@@ -104,7 +105,7 @@ function switchScreen(hideScreen, showScreen) {
 function executeEpicSpin() {
     if (availableStories.length === 0) return;
 
-    // 1. ЗАПУСК ЗВУКА ПРИЗЫВА
+    // 1. ЗАПУСК ЗВУКА
     sfxPull.currentTime = 0; 
     sfxPull.playbackRate = PULL_AUDIO_SPEED; 
     sfxPull.play();
@@ -115,11 +116,14 @@ function executeEpicSpin() {
         else clearInterval(fadeOut);
     }, 50);
 
+    // Скрываем интерфейс
     spinBtn.disabled = true;
     spinBtn.style.opacity = '0'; 
     gachaTitle.style.opacity = '0'; 
     
+    // ВКЛЮЧАЕМ ЭФФЕКТЫ (Руны + Глобальные лучи)
     gachaArea.classList.add('summoning');
+    globalRays.classList.add('active'); // <--- НОВОЕ: Включаем лучи на весь экран
 
     const particlesContainer = document.getElementById('particles-container');
     
@@ -144,24 +148,20 @@ function executeEpicSpin() {
 
     // --- ТАЙМЛАЙН ---
     
-    // Тряска перед концом
+    // Тряска
     setTimeout(() => {
         document.querySelector('.game-container').classList.add('shake-hard');
     }, RITUAL_DURATION - 1500);
 
-    // ФИНАЛ: Вспышка + Звук удара
+    // ФИНАЛ
     setTimeout(() => {
-        // НОВОЕ: Играем звук удара/пульса
         sfxPulse.currentTime = 0;
         sfxPulse.play();
 
         flashOverlay.classList.add('flash-active');
         
-        // Стоп звук призыва
         sfxPull.pause();
         sfxPull.currentTime = 0;
-
-        // Возврат громкости фона (можно чуть задержать, чтобы слышать удар)
         setTimeout(() => { bgm.volume = 0.4; }, 1000);
         
         clearInterval(particleInterval);
@@ -175,8 +175,10 @@ function executeEpicSpin() {
         storyImage.src = currentStory.image;
         updateTextUI();
 
+        // ВЫКЛЮЧЕНИЕ
         setTimeout(() => {
             gachaArea.classList.remove('summoning');
+            globalRays.classList.remove('active'); // <--- НОВОЕ: Выключаем лучи
             document.querySelector('.game-container').classList.remove('shake-hard');
             
             spinBtn.style.opacity = '1';
