@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тайны Северного Клана</title>
+    <!-- Подключаем красивые шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Фоновая картинка (размытая) -->
+    <div id="background-image"></div>
+    <!-- Контейнер для падающего снега -->
+    <div id="snow-container"></div>
+    <!-- Эффект белой вспышки -->
+    <div id="flash-overlay"></div>
+
+    <div class="game-container glass-effect">
+        
+        <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ -->
+        <div id="menu-screen" class="screen">
+            <h1>Созерцаньице!</h1>
+            <p class="subtitle">Что же скрывают снега?</p>
+            <button id="start-btn" class="btn">Начать расследование</button>
+        </div>
+
+        <!-- ЭКРАН 2: ЗОНА РУЛЕТКИ -->
+        <div id="gacha-screen" class="screen hidden">
+            <h2 class="gacha-title">Кого мы встретим сегодня?</h2>
+            
+            <div class="gacha-area">
+                <!-- Ударные волны (пульсация) -->
+                <div class="shockwave"></div>
+                
+                <!-- Контейнер для рунического круга (генерируется JS) -->
+                <div id="rune-circle"></div>
+
+                <!-- Частицы -->
+                <div id="particles-container"></div>
+
+                <!-- Персонаж -->
+                <img id="character-avatar" src="assets/character.png" alt="Персонаж">
+            </div>
+
+            <button id="spin-btn" class="btn">Искать следы</button>
+        </div>
+
+        <!-- ЭКРАН 3: ЧТЕНИЕ ИСТОРИИ -->
+        <div id="story-screen" class="screen hidden">
+            <img id="story-image" src="" alt="Сцена истории">
+            <!-- Плавный градиент снизу для читаемости текста -->
+            <div class="story-vignette"></div> 
+            
+            <div class="vn-text-box glass-effect" id="text-box">
+                <div id="story-text">Текст истории...</div>
+                <div class="vn-hint">Далее ▸</div>
+            </div>
+        </div>
+        <!-- НОВОЕ: ЭКРАН 4: ФИНАЛ -->
+        <div id="end-screen" class="screen hidden">
+            <h1 style="font-size: 3.5rem;">Это не конец...</h1>
+            <p class="subtitle">...а только начало.</p>
+            <button id="restart-btn" class="btn">Вернуться в меню</button>
+        </div>
+
+    </div>
+
+    <script src="data.js"></script>
+    <script src="engine.js"></script>
+</body>
+</html>
