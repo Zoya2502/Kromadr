@@ -2,7 +2,9 @@
 const storiesData = [
     {
         // Укажи названия картинок, которые лежат в папке assets
+        id: 1,
         image: "assets/story1.jpg", 
+        meetName: "Листик",
         lines: [
             "Часть Листик",
             "Среди высоких елей мелькнула тень.",
@@ -11,7 +13,9 @@ const storiesData = [
         ]
     },
     {
+        id: 2,
         image: "assets/story2.jpg", 
+        meetName: "Задирой",
         lines: [
             "Часть Задиры",
             "Здесь исчез отряд разведчиков. Вы находите их лагерь нетронутым.",
@@ -20,7 +24,9 @@ const storiesData = [
         ]
     },
     {
+        id: 3,
         image: "assets/story3.jpg", 
+        meetName: "Душеловом",
         lines: [
             "Часть Душелова",
             "Внутри темно. Вы зажигаете лучину и подходите к столу.",
@@ -29,7 +35,9 @@ const storiesData = [
         ]
     },
     {
+        id: 4,
         image: "assets/story4.jpg", 
+        meetName: "???",
         lines: [
             "Мама помоги.",
             "Здесь исчез отряд разведчиков. Вы находите их лагерь нетронутым.",
@@ -38,7 +46,9 @@ const storiesData = [
         ]
     },
     {
+        id: 5,
         image: "assets/story5.jpg", 
+        meetName: "???",
         lines: [
             "Господи дай сил.",
             "Здесь исчез отряд разведчиков. Вы находите их лагерь нетронутым.",

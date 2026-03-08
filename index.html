@@ -4,35 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тайны Северного Клана</title>
-    <!-- Подключаем красивые шрифты -->
+    
+    <!-- Подключаем красивые шрифты от Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Подключаем наш файл стилей -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Фоновая картинка (размытая) -->
-    <div id="background-image"></div>
 
+    <!-- Фоновая картинка (Лес) -->
+    <div id="background-image"></div>
+    
+    <!-- Контейнер для лучей на весь экран (God Rays) -->
     <div id="global-rays-container">
         <div class="rays-layer ray-slow"></div>
         <div class="rays-layer ray-fast"></div>
     </div>
+
     <!-- Контейнер для падающего снега -->
     <div id="snow-container"></div>
-    <!-- Эффект белой вспышки -->
+    
+    <!-- Эффект белой вспышки на весь экран -->
     <div id="flash-overlay"></div>
 
-    <div class="game-container glass-effect">
+    <!-- Кнопка вызова Галереи (висит в правом верхнем углу экрана) -->
+    <button id="open-gallery-btn" class="gallery-icon" title="Галерея воспоминаний">📜 Галерея</button>
+
+    <!-- ГЛАВНЫЙ КОНТЕЙНЕР (Стеклянное окно игры) -->
+    <div class="game-container">
         
         <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ -->
         <div id="menu-screen" class="screen">
-            <h1>Созерцаньице!</h1>
+            <h1>Северный Клан</h1>
             <p class="subtitle">Что же скрывают снега?</p>
             <button id="start-btn" class="btn">Начать расследование</button>
         </div>
 
-        <!-- ЭКРАН 2: ЗОНА РУЛЕТКИ -->
+        <!-- ЭКРАН 2: ЗОНА РУЛЕТКИ (ГАЧА) -->
         <div id="gacha-screen" class="screen hidden">
             <h2 class="gacha-title">Кого мы встретим сегодня?</h2>
             
@@ -43,39 +54,104 @@
                 <!-- Контейнер для рунического круга (генерируется JS) -->
                 <div id="rune-circle"></div>
 
-                <!-- Частицы -->
+                <!-- Контейнер для частиц энергии (искры) -->
                 <div id="particles-container"></div>
 
-                <!-- Персонаж -->
+                <!-- Картинка персонажа в центре рулетки -->
                 <img id="character-avatar" src="assets/character.png" alt="Персонаж">
             </div>
 
             <button id="spin-btn" class="btn">Искать следы</button>
         </div>
 
-        <!-- ЭКРАН 3: ЧТЕНИЕ ИСТОРИИ -->
+        <!-- ЭКРАН 3: ЧТЕНИЕ ИСТОРИИ (НОВЕЛЛА) -->
         <div id="story-screen" class="screen hidden">
+            <!-- Картинка выпавшей истории -->
             <img id="story-image" src="" alt="Сцена истории">
-            <!-- Плавный градиент снизу для читаемости текста -->
+            
+            <!-- Плавный темный градиент снизу для читаемости текста -->
             <div class="story-vignette"></div> 
             
-            <div class="vn-text-box glass-effect" id="text-box">
+            <!-- Диалоговое окно (стеклянное) -->
+            <div class="vn-text-box" id="text-box">
                 <div id="story-text">Текст истории...</div>
                 <div class="vn-hint">Далее ▸</div>
             </div>
         </div>
-        <!-- НОВОЕ: ЭКРАН 4: ФИНАЛ -->
+
+        <!-- ЭКРАН 3.5: КАРТОЧКА "ВСТРЕЧА С..." -->
+        <div id="card-screen" class="screen hidden">
+            <div class="memory-card">
+                <div class="card-image-wrapper">
+                    <img id="card-image" src="" alt="Карточка">
+                </div>
+                <div class="card-info">
+                    <p class="card-label">Встреча с...</p>
+                    <h2 id="card-title">Имя Персонажа</h2>
+                </div>
+            </div>
+            <button id="card-btn" class="btn">Завершить воспоминание</button>
+        </div>
+
+        <!-- ЭКРАН 4: ФИНАЛ -->
         <div id="end-screen" class="screen hidden">
-            <h1 style="font-size: 3.5rem;">Это не конец...</h1>
+            <h1 style="font-size: clamp(2rem, 4vw, 3.5rem);">Это не конец...</h1>
             <p class="subtitle">...а только начало.</p>
             <button id="restart-btn" class="btn">Вернуться в меню</button>
         </div>
+        
+        <!-- ЭКРАН 5: ГАЛЕРЕЯ (КОЛЛЕКЦИЯ КАРТОЧЕК) -->
+        <div id="gallery-screen" class="screen hidden">
+            <!-- Кнопка закрытия галереи -->
+            <button id="close-gallery-btn" class="close-btn">✖</button>
+            <h2 class="gallery-title">Воспоминания</h2>
 
+            <button id="reset-gallery-btn" class="reset-btn">Сбросить прогресс</button>
+            
+            <!-- Слайдер карточек -->
+            <div class="gallery-slider">
+                <!-- Стрелка влево -->
+                <button id="prev-gallery" class="slider-btn">◀</button>
+                
+                <!-- Шаблон карточки в галерее -->
+                <div class="memory-card gallery-card">
+                    <div class="card-image-wrapper">
+                        <img id="g-card-image" src="" alt="Карточка">
+                        <!-- Заглушка "Замок", если карточка не открыта -->
+                        <div id="g-card-locked" class="locked-overlay">🔒 Неизвестно</div>
+                    </div>
+                    <div class="card-info">
+                        <p class="card-label">Встреча с...</p>
+                        <h2 id="g-card-title">???</h2>
+                    </div>
+                </div>
+                
+                <!-- Стрелка вправо -->
+                <button id="next-gallery" class="slider-btn">▶</button>
+            </div>
+            
+            <!-- Индикатор "1 / 5" -->
+            <div id="gallery-counter">1 / 5</div>
+        </div>
+
+    </div> 
+    <!-- НОВОЕ: МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА КАРТИНКИ -->
+    <div id="fullscreen-modal" class="hidden">
+        <button id="close-fullscreen-btn">✖</button>
+        <img id="fullscreen-image" src="" alt="Полный размер">
     </div>
+
+    <!-- АУДИО СИСТЕМА -->
+    <!-- Фоновая музыка (эмбиент), играет бесконечно -->
     <audio id="bgm" src="assets/bgm.ogg" loop></audio>
+    
+    <!-- Звук магического ритуала призыва -->
     <audio id="sfx-pull" src="assets/pull.ogg"></audio>
+    
+    <!-- Резкий звук (пульс/удар) в момент вспышки -->
     <audio id="sfx-pulse" src="assets/pulse.ogg"></audio>
 
+    <!-- Подключаем скрипты базы данных и движка игры -->
     <script src="data.js"></script>
     <script src="engine.js"></script>
 </body>
